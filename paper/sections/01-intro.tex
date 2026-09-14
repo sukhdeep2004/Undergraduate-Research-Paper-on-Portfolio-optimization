@@ -1,0 +1,108 @@
+% ===================================================================
+% Section 1: Introduction and motivation
+% ===================================================================
+\section{Introduction and motivation}
+
+Markowitz mean--variance selection \cite{markowitz1952} is the foundation of
+quantitative portfolio construction, but in its pure form it is fragile. The
+global minimum-variance (GMV) portfolio,
+\[
+  \w_{\GMV}=\frac{\Sig^{-1}\one}{\one^\top\Sig^{-1}\one},
+\]
+depends on the \emph{inverse} of the covariance matrix, and in practice $\Sig$ is
+replaced by a sample estimate $\Sighat$ formed from a finite window of returns.
+Estimation error in $\Sighat$ is amplified by the inversion: the smallest
+eigenvalues of $\Sighat$---the least well-estimated directions---dominate
+$\Sighat^{-1}$, producing weights that are extreme, concentrated in a few
+assets, unstable across rebalances, and expensive to trade
+\cite{brittenjones1999}. When the number of assets $N$ approaches the number of
+observations $T$, $\Sighat$ becomes ill-conditioned or singular and the problem
+is acute.
+
+The standard responses regularize either the estimate or the weights. Ridge
+regularization (diagonal loading) replaces $\Sighat$ with $\Sighat+\lambda I$;
+Ledoit--Wolf shrinkage pulls $\Sighat$ toward a structured target
+\cite{ledoitwolf2004}; norm constraints on $\w$ stabilize the solution
+\cite{demiguel2009norm,brodie2009}; risk-budgeting methods equalize risk
+contributions \cite{maillard2010}; and the naive $1/N$ portfolio, which uses
+\emph{no} estimate at all, is a famously hard benchmark to beat out of sample
+\cite{demiguel2009}. Each of these is, in effect, a statement about the
+\emph{spectrum} of the risk model: do not let the optimizer exploit near-flat
+directions that are really just estimation noise.
+
+\emph{Optimal experimental design} is the branch of statistics that formalizes
+exactly this concern. A design chooses how to allocate observational effort so
+that the resulting parameter estimates are as precise as possible, and it does so
+by scalarizing an information matrix through the classical A-, D-, and
+E-optimality criteria \cite{bergerwong,pukelsheim2006,kiefer1960}. The central
+observation of this paper is that portfolio weights on the budget simplex play
+the same role as a design measure, and that the A/D/E criteria supply a
+principled, interpretable, and \emph{convex} family of regularizers---each
+targeting a different, named failure mode of the raw GMV portfolio.
+
+\subsection{Contribution}
+Our contributions are as follows.
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3em]
+  \item \textbf{A unified convex formulation.} We formulate a single optimizer
+    (Section~\ref{sec:criteria}) that combines mean--variance risk, ridge
+    regularization, and A/D/E design penalties over a composable constraint set
+    of budget, box, and group restrictions.
+
+  \item \textbf{A regression interpretation of the design points.} We give the
+    design vectors $\vv_i$ a genuine factor-regression meaning
+    (Section~\ref{sec:vi}): they are the factor loadings of asset $i$, the target
+    parameter is the vector of factor premia, and the weight-dependent
+    information matrix $\M=B^\top\diag(\w)B$ measures the precision with which the
+    \emph{portfolio} identifies the common factors.
+
+  \item \textbf{A theory of the choice of design matrix.} Section~\ref{sec:Vchoice}
+    analyses how the criteria depend on $V$. We show that the D-criterion is
+    invariant under any invertible reparametrization of the factor space, whereas
+    the A- and E-criteria are invariant only under orthogonal changes of basis
+    (Theorem~\ref{thm:invariance}), and that under rescaling of $V$ the D-criterion
+    is invariant in the argmin while A and E are not
+    (Proposition~\ref{prop:scaling}). This has a concrete modelling consequence
+    for statistically estimated factors, which are identified only up to rotation,
+    and it explains why a normalization of $V$ is \emph{required} for the penalty
+    strengths to be comparable across universes.
+
+  \item \textbf{The rank-deficient case.} The familiar reductions of the D- and
+    A-criteria to a log-barrier and a weighted inverse barrier hold only when $V$
+    is square and nonsingular. For a genuine factor model with $K<N$ we give the
+    correct Cauchy--Binet representation of the D-criterion
+    (Theorem~\ref{thm:cauchybinet}) and a necessary and sufficient support
+    condition for the information matrix to be nonsingular
+    (Corollary~\ref{cor:spanning}), recovering the classical barrier forms as the
+    special case $K=N$ (Corollary~\ref{cor:KN}).
+
+  \item \textbf{Structural theory.} Section~\ref{sec:theory} establishes standing
+    assumptions, convexity with full proofs, existence and uniqueness, exact
+    recovery of the GMV and ridge-GMV portfolios, and limiting solutions as the
+    penalties grow without bound.
+
+  \item \textbf{Monotone comparative statics and stability.} We prove that each
+    criterion evaluated at the optimum is monotone in its own penalty strength
+    (Theorem~\ref{thm:monotone}), which explains the monotone sweeps observed in
+    our experiments; and we prove a stability theorem
+    (Theorem~\ref{thm:stability}) showing that the solution map
+    $\Sighat\mapsto\w^\star$ is Lipschitz with constant inversely proportional to
+    the strong-convexity modulus, which the penalties increase. This turns the
+    paper's headline empirical finding---an order-of-magnitude turnover
+    reduction---into a provable consequence of the formulation.
+
+  \item \textbf{Empirical evaluation.} We evaluate on synthetic data, in a
+    high-dimensional simulation with $N/T\to1$, and on a real universe of US
+    sector ETFs (Sections~\ref{sec:computation}--\ref{sec:applications}),
+    reporting both the gains and the honest trade-offs.
+\end{enumerate}
+
+\subsection{Organization}
+Section~\ref{sec:setup} sets up the portfolio problem, the design bridge, the
+factor interpretation of the design points, and the theory of the choice of $V$.
+Section~\ref{sec:criteria} defines the three regularized portfolios and their
+economic meaning. Section~\ref{sec:theory} develops the structural theory.
+Section~\ref{sec:computation} covers computation, tuning, and the simulation
+studies; Section~\ref{sec:applications} the real-data application; and
+Section~\ref{sec:discussion} discusses when each criterion is useful. Longer
+proofs are collected in the appendix.

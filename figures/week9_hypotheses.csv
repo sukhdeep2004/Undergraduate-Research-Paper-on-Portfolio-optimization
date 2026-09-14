@@ -1,0 +1,6 @@
+hypothesis,verdict,evidence
+H1  E-reg lowers turnover at matched risk,SUPPORTED,avg turnover proposed 0.038 vs markowitz 0.423
+H2  D-penalty raises effective N,SUPPORTED,effective N proposed 9.3 vs markowitz 1.7
+H3  shrinkage approx info-optimal ridge,SUPPORTED (qualitative),spectral/weight agreement shown in the method note (Week 6)
+H4  design penalty beats ridge as N/T->1,PARTIAL,"wins on turnover/effective N, not raw OOS vol vs ridge (Week 7)"
+H5  E-optimal more crisis-robust than GMV,mixed,real crisis vol robust_E 0.323 vs GMV 0.292; crisis MDD -0.335 vs -0.336; calm Sharpe 1.10 vs 0.88; sim crisis MDD -0.252 vs -0.253

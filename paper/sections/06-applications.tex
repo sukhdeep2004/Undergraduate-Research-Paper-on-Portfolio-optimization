@@ -1,0 +1,119 @@
+% ===================================================================
+% Section 6: Applications
+% ===================================================================
+\section{Application to US sector ETFs}
+\label{sec:applications}
+
+\subsection{Data and protocol}
+We evaluate on a real universe of $11$ US sector exchange-traded funds (XLB,
+XLC, XLE, XLF, XLI, XLK, XLP, XLRE, XLU, XLV, XLY), using daily total returns
+from July 2018 onwards, roughly $2000$ observations per asset. The backtest is a
+rolling out-of-sample exercise: at each rebalancing date the covariance is
+estimated on a trailing window of $252$ trading days (one year), the portfolio is
+solved on that estimate, and the resulting weights are held, unchanged and
+out-of-sample, until the next rebalance $21$ trading days (approximately one
+month) later. This yields $84$ rebalances. No information from the holding period
+enters the estimate.
+
+We compare six strategies: equal weight; sample-covariance Markowitz (GMV);
+a constrained GMV with a per-asset cap; ridge-GMV; Ledoit--Wolf shrinkage GMV;
+and the proposed design-regularized portfolio, which uses
+$\lambda_2=0.10$, $\gD=\gE=0.05$, long-only with a $30\%$ cap, and the
+precision-metric specification $V=\Sighat^{-1/2}$ of
+Example~\ref{ex:Vchoices}(2). Metrics are the annualized Sharpe ratio,
+out-of-sample annualized volatility, average turnover per rebalance, average
+effective number of assets $\Neff$, and maximum drawdown.
+
+\subsection{Results}
+
+\begin{table}[htbp]
+\centering
+\caption{Real sector-ETF backtest, July 2018 onwards; $252$-day estimation
+  window, monthly rebalancing, $84$ rebalances. Lower turnover and higher
+  effective $N$ are better. ``Proposed'' is ridge $+$ D $+$ E with a $30\%$
+  per-asset cap.}
+\label{tab:real}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Strategy} & \textbf{Sharpe} & \textbf{OOS vol} & \textbf{Turnover} & \textbf{Eff.\ $N$} & \textbf{Max DD} \\
+\midrule
+Equal weight             & \textbf{0.751} & 0.1875 & 0.000 & 11.00 & $-0.363$ \\
+Markowitz (sample)       & 0.483 & 0.1573 & 0.423 & 1.68 & $-0.338$ \\
+Constrained GMV          & 0.651 & 0.1632 & 0.116 & 4.18 & $-0.332$ \\
+Ridge GMV                & 0.655 & 0.1734 & 0.063 & 8.67 & $-0.357$ \\
+Shrinkage GMV            & 0.528 & 0.1555 & 0.311 & 2.19 & $-0.343$ \\
+Proposed (D$+$E$+$ridge) & 0.710 & 0.1766 & \textbf{0.038} & \textbf{9.30} & $-0.355$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Reading Table~\ref{tab:real} honestly:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.25em]
+  \item The raw sample Markowitz portfolio is the worst risk-adjusted performer
+    among the optimized strategies (Sharpe $0.483$), concentrates into fewer than
+    two effective names out of eleven, and churns heavily (turnover $0.423$).
+    This is precisely the instability that motivates the paper, and it persists
+    even in a small, well-conditioned, liquid universe.
+  \item The \textbf{proposed} portfolio recovers almost all of the equal-weight
+    risk-adjusted return ($0.710$ against $0.751$) while cutting turnover by
+    roughly an order of magnitude relative to sample Markowitz ($0.038$ against
+    $0.423$) and raising effective breadth from $1.68$ to $9.30$ names. Among the
+    optimized strategies it dominates on the stability-for-return trade-off.
+  \item Ridge alone already helps substantially (turnover $0.063$, $\Neff=8.67$);
+    the design penalties push turnover lower still and breadth higher, at a small
+    cost in out-of-sample volatility. This is the same complementarity seen in
+    the high-dimensional simulation of Section~\ref{sec:highdim}.
+  \item Shrinkage improves the covariance estimate---it attains the lowest
+    out-of-sample volatility---but, because it does not regularize the
+    \emph{weights}, it does not by itself control turnover or concentration.
+    This separation between estimator regularization and weight regularization
+    is the practical case for the present formulation.
+\end{itemize}
+
+The turnover ordering across strategies is consistent with
+Corollary~\ref{cor:turnover}: the strategies whose objectives carry a larger
+strong-convexity modulus---ridge, and then ridge plus barrier penalties---exhibit
+systematically lower turnover, while the two strategies with no weight-space
+regularization (sample Markowitz and shrinkage) sit at the top of the turnover
+ranking.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{week8_metrics.png}
+  \caption{Real sector-ETF metric panel: annualized Sharpe ratio, out-of-sample
+    volatility, average turnover, and average effective $N$ by strategy. The
+    proposed portfolio combines equal-weight-like breadth with the lowest
+    turnover among the optimized methods.}
+  \label{fig:realmetrics}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{week8_equity_curves.png}
+  \caption{Out-of-sample cumulative growth of one dollar on the sector-ETF
+    universe, July 2018 onwards.}
+  \label{fig:realeq}
+\end{figure}
+
+\subsection{Transaction costs}
+Because turnover translates directly into trading cost, the turnover reduction
+is economically and not merely statistically meaningful. Under a linear cost
+model charging a fixed number of basis points per unit of turnover, the
+net-of-cost Sharpe ranking increasingly favours the low-turnover
+design-regularized portfolio as the cost level rises, whereas the raw Markowitz
+portfolio's heavy churn erodes its already weak gross performance. At zero cost
+the ranking is that of Table~\ref{tab:real}; as costs increase, the gap widens
+monotonically in favour of the proposed strategy, which is the practical payoff
+of Corollary~\ref{cor:turnover}.
+
+\subsection{Crisis and calm sub-periods}
+Splitting the sample into stressed and calm sub-periods gives a mixed but
+interpretable read on the E-criterion. In the calm regime the robust, E-tilted
+variant improves risk-adjusted return relative to GMV, while in the stressed
+regime its realized volatility is comparable to that of GMV and its maximum
+drawdown is essentially unchanged. We therefore do not claim a crisis-robustness
+result. The worst-case payoff that E-optimality is designed to deliver should be
+clearest under sharper and more genuinely out-of-sample stress than a
+sub-period split of a single recent sample can provide, and we flag this as the
+main direction for further empirical work rather than as an established finding.

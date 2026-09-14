@@ -1,0 +1,616 @@
+% ===================================================================
+% Section 4: Theoretical properties
+% ===================================================================
+\section{Theoretical properties}
+\label{sec:theory}
+
+This section develops the structural theory of program \eqref{eq:objective}. We
+first fix standing assumptions, then establish convexity, existence, uniqueness,
+first-order conditions, exact reductions to the classical portfolios, monotone
+comparative statics in the penalty strengths, limiting solutions, and a stability
+bound.
+
+\subsection{Standing assumptions}
+\label{sec:assumptions}
+
+\begin{assumption}[Risk model]
+\label{as:sigma}
+$\Sighat\in\Sym^{N}$ is symmetric positive semidefinite. Where strict convexity
+is invoked we assume in addition that either $\Sighat\succ0$ or $\lambda_2>0$.
+\end{assumption}
+
+\begin{assumption}[Design matrix]
+\label{as:V}
+$V=[\vv_1,\dots,\vv_N]\in\R^{K\times N}$ with $K\le N$ and $\rank V=K$.
+\end{assumption}
+
+\begin{assumption}[Normalization]
+\label{as:norm}
+$V$ is scaled so that $\tfrac1N\tr\!\big(VV^\top\big)
+=\tfrac1N\sum_{i=1}^{N}\lVert\vv_i\rVert_2^{2}=1$.
+\end{assumption}
+
+\begin{assumption}[Feasible set]
+\label{as:feasible}
+$\Wset$ in \eqref{eq:feasible} is nonempty and, where compactness is invoked, the
+box bounds are finite (in particular $\Wset$ is compact in the long-only case
+$\ell=0$, being a subset of the unit simplex). Slater's condition holds:
+$\relint\Wset\neq\emptyset$, i.e.\ there exists a feasible $\w$ with
+$\ell_i<w_i<u_i$ for all $i$ and $\sum_{i\in g}w_i<c_g$ for all $g$.
+\end{assumption}
+
+\begin{assumption}[Effective domain]
+\label{as:domain}
+When $\gA>0$ or $\gD>0$ we restrict attention to
+$\dom F=\{\w:\M\succ0\}$, on which $F$ is real valued, and set $F=+\infty$
+elsewhere; by Corollary~\ref{cor:spanning} this requires
+$\{\vv_i:w_i>0\}$ to span $\R^{K}$, and we assume
+$\Wset\cap\dom F\neq\emptyset$.
+\end{assumption}
+
+\begin{remark}
+Assumption~\ref{as:domain} is not vacuous. In the square case $K=N$ it reduces to
+$\w>0$, so the effective domain of the A- and D-penalized problem is the open
+simplex; in the factor case $K<N$ it is the weaker requirement that the assets
+held span factor space, which permits some $w_i=0$ provided at least $K$ assets
+with linearly independent loadings are held.
+\end{remark}
+
+\subsection{Derivatives}
+\label{sec:gradients}
+
+Since $\partial\M/\partial w_i=\vv_i\vv_i^\top$, the chain rule gives closed forms
+for every term. Define the classical \emph{variance function} of the design,
+\begin{equation}
+  d_i(\w)\;=\;\vv_i^\top \M^{-1}\vv_i,\qquad i=1,\dots,N ,
+  \label{eq:varfun}
+\end{equation}
+which in the square case $K=N$ reduces to $d_i(\w)=1/w_i$.
+
+\begin{lemma}[Gradients]
+\label{lem:gradients}
+On $\dom F$, with $\uu^\star$ a unit eigenvector associated with $\lammin(\M)$,
+\begin{align}
+  \nabla_{\w}\big(\w^\top\Sighat\w\big) &= 2\Sighat\w, &
+  \nabla_{\w}\big(\lambda_2\lVert\w\rVert_2^2\big) &= 2\lambda_2\w,
+  \label{eq:grad1}\\
+  \frac{\partial}{\partial w_i}\,\phiA(\M) &= -\,\vv_i^\top \M^{-2}\vv_i
+  \;=\;-\big\lVert \M^{-1}\vv_i\big\rVert_2^{2}, &
+  \frac{\partial}{\partial w_i}\,\phiD(\M) &= -\,d_i(\w),
+  \label{eq:grad2}\\
+  \frac{\partial}{\partial w_i}\,\phiE(\M) &= -\big(\vv_i^\top\uu^\star\big)^{2}.
+  & &
+  \label{eq:grad3}
+\end{align}
+The expression \eqref{eq:grad3} is a gradient when $\lammin(\M)$ is a simple
+eigenvalue and a subgradient otherwise.
+\end{lemma}
+
+\begin{proof}
+\eqref{eq:grad1} is standard. For $\phiA$, differentiating
+$\M\M^{-1}=I$ gives $\partial\M^{-1}/\partial w_i=-\M^{-1}(\partial\M/\partial w_i)\M^{-1}
+=-\M^{-1}\vv_i\vv_i^\top\M^{-1}$, so
+$\partial\tr(\M^{-1})/\partial w_i=-\tr(\M^{-1}\vv_i\vv_i^\top\M^{-1})
+=-\vv_i^\top\M^{-2}\vv_i$, which equals $-\lVert\M^{-1}\vv_i\rVert_2^2$ by
+symmetry of $\M$. For $\phiD$, Jacobi's formula gives
+$\partial\log\det\M/\partial w_i=\tr(\M^{-1}\vv_i\vv_i^\top)=\vv_i^\top\M^{-1}\vv_i
+=d_i(\w)$, and $\phiD=-\log\det\M$. For $\phiE$, first-order eigenvalue
+perturbation gives
+$\partial\lammin/\partial w_i=\uu^{\star\top}(\partial\M/\partial w_i)\uu^\star
+=(\vv_i^\top\uu^\star)^2$ when the eigenvalue is simple; when it is repeated,
+$\lammin$ is the pointwise minimum \eqref{eq:lammin-var} of linear functions and
+$(\vv_i^\top\uu^\star)^2$ is an element of its superdifferential, so
+$-(\vv_i^\top\uu^\star)^2$ is a subgradient of $\phiE$.
+\end{proof}
+
+\begin{remark}[Connection to the equivalence theory]
+The appearance of the variance function \eqref{eq:varfun} as the negative
+gradient of the D-criterion is the entry point to the equivalence theory of
+optimal design: at an unpenalized D-optimal design the Kiefer--Wolfowitz theorem
+\cite{kiefer1960} characterizes optimality by $\max_i d_i(\w)=K$. A
+corresponding characterization for the penalized program \eqref{eq:objective},
+via vertex directional derivatives on the simplex, is a natural development and
+is treated separately.
+\end{remark}
+
+\subsection{Convexity}
+
+\begin{proposition}[Convexity]
+\label{prop:convex}
+Under Assumptions~\ref{as:sigma}--\ref{as:domain}, and for
+$\lambda_2,\gA,\gD,\gE\ge0$, the objective $F$ in \eqref{eq:objective} is a
+proper closed convex function on $\dom F$, and $\Wset$ is a convex polyhedron.
+Program \eqref{eq:objective} is therefore a convex program.
+\end{proposition}
+
+\begin{proof}
+We treat the terms separately; a nonnegative combination of convex functions is
+convex.
+
+\emph{(i) Risk.} $\w\mapsto\w^\top\Sighat\w$ has Hessian $2\Sighat\succeq0$ by
+Assumption~\ref{as:sigma}, hence is convex.
+
+\emph{(ii) Ridge.} $\lambda_2\lVert\w\rVert_2^2$ has Hessian
+$2\lambda_2I\succeq0$ for $\lambda_2\ge0$.
+
+\emph{(iii) A-term.} By Lemma~\ref{lem:trinv} in the appendix, the map
+$X\mapsto\tr(X^{-1})$ is convex on $\Sym^{K}_{++}$. The map $\w\mapsto\M$ is
+linear, and convexity is preserved under composition with an affine map, so
+$\w\mapsto\phiA(\M)$ is convex on $\dom F$.
+
+\emph{(iv) D-term.} By Lemma~\ref{lem:logdet} in the appendix, $X\mapsto\log\det X$
+is concave on $\Sym^{K}_{++}$, so $X\mapsto-\log\det X$ is convex; composing with
+the linear map $\w\mapsto\M$ gives convexity of $\w\mapsto\phiD(\M)$.
+
+\emph{(v) E-term.} By \eqref{eq:lammin-var}, $\w\mapsto\lammin(\M)$ is a pointwise
+infimum over $\uu$ of the functions $\w\mapsto\sum_iw_i(\vv_i^\top\uu)^2$, each of
+which is linear in $\w$. A pointwise infimum of linear functions is concave,
+hence $\phiE(\M)=-\lammin(\M)$ is convex in $\w$.
+
+\emph{Closedness and properness.} Each term is continuous on the open set
+$\{\w:\M\succ0\}$, and $\phiA,\phiD\to+\infty$ as $\M$ approaches the boundary of
+the positive definite cone, so extending $F$ by $+\infty$ off $\dom F$ yields a
+lower semicontinuous, i.e.\ closed, function; it is proper by
+Assumption~\ref{as:domain}.
+
+\emph{Feasible set.} $\Wset$ is the intersection of the hyperplane
+$\{\one^\top\w=1\}$, the box $\{\ell\le\w\le u\}$, and finitely many half-spaces
+$\{\sum_{i\in g}w_i\le c_g\}$, each convex; hence $\Wset$ is a convex polyhedron.
+\end{proof}
+
+\subsection{Existence, uniqueness, and interiority}
+
+\begin{theorem}[Existence]
+\label{thm:existence}
+Suppose Assumptions~\ref{as:sigma}--\ref{as:domain} hold and that either
+\emph{(a)} $\Wset$ is compact, or \emph{(b)} $\lambda_2>0$. Then
+\eqref{eq:objective} attains its minimum on $\Wset$.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:convex}, $F$ is closed, proper and convex, and
+$\Wset\cap\dom F\neq\emptyset$.
+
+\emph{(a)} If $\Wset$ is compact, let $(\w^{(m)})$ be a minimizing sequence in
+$\Wset\cap\dom F$. By compactness it has a subsequence converging to some
+$\w^{\infty}\in\Wset$. Lower semicontinuity of $F$ gives
+$F(\w^{\infty})\le\liminf_mF(\w^{(m)})=\inf_{\Wset}F$, and since
+$\inf_{\Wset}F<+\infty$ we get $\w^{\infty}\in\dom F$ and $\w^{\infty}$ is a
+minimizer.
+
+\emph{(b)} If $\lambda_2>0$ we show $F$ is coercive on $\Wset$, so that its
+sublevel sets are bounded and case~(a) applies to a compact sublevel set. Indeed
+$\w^\top\Sighat\w\ge0$ and $\phiA(\M)\ge0$; moreover
+$\lammin(\M)\le\lammax(\M)\le\sum_iw_i\lVert\vv_i\rVert_2^2
+\le\big(\max_i\lVert\vv_i\rVert_2^2\big)\lVert\w\rVert_1$, so
+$\gE\phiE(\M)\ge-c_1\lVert\w\rVert_1$ for a constant $c_1$; and by
+\eqref{eq:cb}, $\det\M$ is a polynomial of degree $K$ in $\w$, so
+$\gD\phiD(\M)\ge-c_2-c_3\log(1+\lVert\w\rVert_2)$ for constants $c_2,c_3$. Hence
+\[
+  F(\w)\;\ge\;\lambda_2\lVert\w\rVert_2^2-c_1\lVert\w\rVert_1
+  -c_3\log\big(1+\lVert\w\rVert_2\big)-c_2\;\longrightarrow\;+\infty
+\]
+as $\lVert\w\rVert_2\to\infty$, since the quadratic term dominates both a linear
+and a logarithmic term.
+\end{proof}
+
+\begin{theorem}[Uniqueness]
+\label{thm:uniqueness}
+If any one of the following holds, $F$ is strictly convex on $\Wset\cap\dom F$ and
+the minimizer of \eqref{eq:objective} is unique:
+\begin{enumerate}[label=(\roman*),leftmargin=2.0em,itemsep=0.15em]
+  \item $\Sighat\succ0$;
+  \item $\lambda_2>0$;
+  \item $\gD>0$ (or $\gA>0$) and $K=N$;
+  \item $\gD>0$ (or $\gA>0$), $K<N$, and the map $\w\mapsto\M$ is injective.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+In cases (i) and (ii) the quadratic part $\w^\top(\Sighat+\lambda_2I)\w$ has
+positive definite Hessian, hence is strictly convex, and adding the convex
+remaining terms preserves strict convexity. In case (iii), by
+Corollary~\ref{cor:KN} the D-term is $-\gD\sum_i\log w_i$, whose Hessian
+$\gD\diag(w_i^{-2})$ is positive definite on $\w>0$; similarly the A-term has
+Hessian $2\gA\diag(G_{ii}w_i^{-3})\succ0$ when $G_{ii}>0$. In case (iv),
+$X\mapsto-\log\det X$ is strictly convex on $\Sym^{K}_{++}$, and the composition
+of a strictly convex function with an \emph{injective} linear map is strictly
+convex. Strict convexity on a convex set implies at most one minimizer, which
+together with Theorem~\ref{thm:existence} gives existence and uniqueness.
+\end{proof}
+
+\begin{remark}[When is $\w\mapsto\M$ injective?]
+\label{rem:injective}
+The map $\w\mapsto\sum_iw_i\vv_i\vv_i^\top$ is injective precisely when the
+rank-one matrices $\{\vv_i\vv_i^\top\}_{i=1}^{N}$ are linearly independent in
+$\Sym^{K}$, which has dimension $K(K+1)/2$. A necessary condition is therefore
+$N\le K(K+1)/2$. In a typical factor application with $K$ small and $N$ large
+this \emph{fails}, so in the rank-deficient case the design penalties alone do
+not deliver uniqueness and one should retain $\lambda_2>0$ (or $\Sighat\succ0$).
+This is a concrete reason to keep the ridge term in the formulation rather than
+regard it as redundant.
+\end{remark}
+
+\begin{proposition}[Interiority]
+\label{prop:interior}
+Let $K=N$ and $\gD>0$ (or $\gA>0$), and let $\Wset$ be contained in the unit
+simplex. Then every minimizer $\w^\star$ of \eqref{eq:objective} satisfies
+$w_i^\star>0$ for all $i$; that is, the nonnegativity constraints are inactive
+and their multipliers vanish.
+\end{proposition}
+
+\begin{proof}
+By Corollary~\ref{cor:KN} the D- and A-terms equal $-\gD\sum_i\log w_i$ and
+$\gA\sum_iG_{ii}/w_i$ respectively, each of which tends to $+\infty$ as any
+$w_i\downarrow0$, while the remaining terms stay bounded on the compact simplex.
+Hence $F(\w)\to+\infty$ on any sequence approaching a face $\{w_i=0\}$, so no such
+point can be a minimizer, and by Theorem~\ref{thm:existence} a minimizer exists in
+the relative interior.
+\end{proof}
+
+Proposition~\ref{prop:interior} has a practical reading: with a strictly positive
+D- or A-penalty the long-only constraint never binds, so the barrier
+\emph{implements} the no-short-selling restriction rather than merely coexisting
+with it.
+
+\subsection{First-order conditions}
+
+\begin{theorem}[KKT conditions: necessity and sufficiency]
+\label{thm:kkt}
+Let Assumptions~\ref{as:sigma}--\ref{as:domain} hold, with Slater's condition as
+in Assumption~\ref{as:feasible}. Then $\w^\star\in\Wset\cap\dom F$ is a global
+minimizer of \eqref{eq:objective} if and only if there exist a scalar $\nu$,
+vectors $\underline{\alpha},\overline{\alpha}\in\R^{N}_{+}$, and scalars
+$\mu_g\ge0$ such that
+\begin{equation}
+  2\Sighat\w^\star+2\lambda_2\w^\star
+  -\gA\,\mathbf d_{\mathrm{A}}
+  -\gD\,\mathbf d(\w^\star)
+  -\gE\big(V^\top\uu^\star\big)^{\odot2}
+  \;=\;\nu\one+\overline{\alpha}-\underline{\alpha}
+  +\sum_g\mu_g\one_g ,
+  \label{eq:kkt}
+\end{equation}
+where $(\mathbf d_{\mathrm{A}})_i=\vv_i^\top(\M^\star)^{-2}\vv_i$,
+$\mathbf d(\w^\star)=(d_1(\w^\star),\dots,d_N(\w^\star))^\top$ is the variance
+function \eqref{eq:varfun}, $(\cdot)^{\odot2}$ is entrywise squaring, and
+$\one_g$ is the indicator of group $g$; together with primal feasibility
+$\w^\star\in\Wset$, dual feasibility
+$\underline{\alpha},\overline{\alpha},\mu_g\ge0$, and complementary slackness
+\[
+  \underline{\alpha}_i\big(w_i^\star-\ell_i\big)=0,\qquad
+  \overline{\alpha}_i\big(u_i-w_i^\star\big)=0,\qquad
+  \mu_g\Big(\textstyle\sum_{i\in g}w_i^\star-c_g\Big)=0 .
+\]
+\end{theorem}
+
+\begin{proof}
+All constraints are affine and Slater's condition holds, so the KKT conditions
+are necessary for optimality. Conversely, since $F$ is convex
+(Proposition~\ref{prop:convex}) and the constraints are affine, the KKT
+conditions are sufficient: if $\w^\star$ satisfies them, then for any feasible
+$\w$ the gradient inequality gives
+$F(\w)\ge F(\w^\star)+\nabla F(\w^\star)^\top(\w-\w^\star)$, and substituting
+\eqref{eq:kkt} together with feasibility and complementary slackness shows
+$\nabla F(\w^\star)^\top(\w-\w^\star)\ge0$, whence $F(\w)\ge F(\w^\star)$. The
+stationarity equation \eqref{eq:kkt} is Lemma~\ref{lem:gradients} substituted into
+the stationarity of the Lagrangian; when $\lammin(\M^\star)$ is repeated,
+$\uu^\star$ is replaced by an appropriate element of the superdifferential.
+\end{proof}
+
+\begin{corollary}[Global optimality]
+\label{cor:global}
+Because \eqref{eq:objective} is a convex program, every local minimizer is a
+global minimizer, and the set of minimizers is convex and closed. If in addition
+any condition of Theorem~\ref{thm:uniqueness} holds, this set is a singleton.
+\end{corollary}
+
+\begin{proof}
+Let $\w^{\circ}$ be a local minimizer and $\w\in\Wset\cap\dom F$ arbitrary. For
+$t\in(0,1]$ small, convexity of $\Wset\cap\dom F$ gives
+$\w_t=(1-t)\w^{\circ}+t\w$ feasible and, for $t$ small enough,
+$F(\w^{\circ})\le F(\w_t)\le(1-t)F(\w^{\circ})+tF(\w)$, whence
+$tF(\w^{\circ})\le tF(\w)$ and so $F(\w^{\circ})\le F(\w)$. Thus $\w^{\circ}$ is
+global. The minimizer set is the intersection of the convex set
+$\Wset\cap\dom F$ with the sublevel set $\{F\le\min F\}$, which is convex and
+closed since $F$ is convex and closed.
+\end{proof}
+
+\begin{remark}[Convexity versus the solver]
+\label{rem:solver}
+Corollary~\ref{cor:global} is a statement about the \emph{problem}, and it is
+what licenses calling a computed stationary point a global optimum. It should not
+be conflated with a property of any particular algorithm. Our implementation uses
+sequential quadratic programming (SLSQP), which is a general-purpose nonlinear
+constrained solver and does \emph{not} by itself certify global optimality; what
+certifies it here is convexity. In practice we additionally verify
+\eqref{eq:kkt} at the returned point and check the exact reductions of
+Lemma~\ref{lem:reductions}. The same program can be posed for a conic solver---the
+risk, ridge and A-terms admit semidefinite representations and the E-term is an
+eigenvalue constraint---which returns a duality-gap certificate; we note this as
+an alternative in Section~\ref{sec:computation}.
+\end{remark}
+
+\subsection{Exact reductions}
+
+\begin{lemma}[Reductions]
+\label{lem:reductions}
+Let $\Sighat\succ0$, impose only the budget constraint $\one^\top\w=1$, and allow
+short sales. Then:
+\begin{enumerate}[label=(\roman*),leftmargin=2.0em,itemsep=0.15em]
+  \item if $\lambda_2=\gA=\gD=\gE=0$, the unique solution of
+    \eqref{eq:objective} is the GMV portfolio
+    $\w^\star=\Sighat^{-1}\one/(\one^\top\Sighat^{-1}\one)$;
+  \item if $\gA=\gD=\gE=0$ and $\lambda_2>0$, the unique solution is the
+    ridge-GMV portfolio
+    $\w^\star=(\Sighat+\lambda_2I)^{-1}\one/\big(\one^\top(\Sighat+\lambda_2I)^{-1}\one\big)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(ii) implies (i) on setting $\lambda_2=0$, so we prove (ii). With only the budget
+constraint, \eqref{eq:kkt} reduces to stationarity of
+$L(\w,\nu)=\w^\top(\Sighat+\lambda_2I)\w-\nu(\one^\top\w-1)$, namely
+$2(\Sighat+\lambda_2I)\w^\star=\nu\one$. Since $\Sighat+\lambda_2I\succ0$ it is
+invertible, so $\w^\star=\tfrac{\nu}{2}(\Sighat+\lambda_2I)^{-1}\one$. Imposing
+$\one^\top\w^\star=1$ gives
+$\tfrac{\nu}{2}=\big(\one^\top(\Sighat+\lambda_2I)^{-1}\one\big)^{-1}$, which is
+well defined and positive because $(\Sighat+\lambda_2I)^{-1}\succ0$. Substituting
+yields the stated formula. Uniqueness follows from
+Theorem~\ref{thm:uniqueness}(i)--(ii).
+\end{proof}
+
+Lemma~\ref{lem:reductions} is what makes the formulation a strict generalization
+rather than a substitute: the classical portfolios are recovered exactly, not
+approximately, and the two identities serve as numerical acceptance tests for the
+implementation (Section~\ref{sec:computation}).
+
+\subsection{Monotone comparative statics}
+
+The next result explains, and indeed predicts, the monotone behaviour observed in
+the penalty sweeps of Section~\ref{sec:computation}. Write the objective as
+$F_\gamma=f_0+\gamma h$, where $h$ is one of the design criteria and $f_0$
+collects all remaining terms.
+
+\begin{theorem}[Monotonicity in the penalty strength]
+\label{thm:monotone}
+Let $f_0$ and $h$ be convex on the convex set $\Wset\cap\dom F$, and for
+$\gamma\ge0$ let $\w_\gamma$ be any minimizer of $f_0+\gamma h$ over that set.
+Then for $0\le\gamma<\gamma'$,
+\[
+  h(\w_{\gamma'})\;\le\;h(\w_{\gamma})
+  \qquad\text{and}\qquad
+  f_0(\w_{\gamma'})\;\ge\;f_0(\w_{\gamma}).
+\]
+That is, increasing a penalty weakly improves its own criterion and weakly
+worsens every other component of the objective.
+\end{theorem}
+
+\begin{proof}
+Optimality of $\w_\gamma$ at $\gamma$ and of $\w_{\gamma'}$ at $\gamma'$ give
+\[
+  f_0(\w_\gamma)+\gamma h(\w_\gamma)\le f_0(\w_{\gamma'})+\gamma h(\w_{\gamma'}),
+  \qquad
+  f_0(\w_{\gamma'})+\gamma' h(\w_{\gamma'})\le f_0(\w_\gamma)+\gamma' h(\w_\gamma).
+\]
+Adding the two inequalities and cancelling $f_0(\w_\gamma)+f_0(\w_{\gamma'})$
+yields $\gamma h(\w_\gamma)+\gamma'h(\w_{\gamma'})\le\gamma h(\w_{\gamma'})+\gamma'h(\w_\gamma)$,
+i.e.\ $(\gamma'-\gamma)\big(h(\w_\gamma)-h(\w_{\gamma'})\big)\ge0$. Since
+$\gamma'>\gamma$ this gives $h(\w_{\gamma'})\le h(\w_\gamma)$. Substituting this
+into the first displayed inequality,
+$f_0(\w_\gamma)-f_0(\w_{\gamma'})\le\gamma\big(h(\w_{\gamma'})-h(\w_\gamma)\big)\le0$,
+which is the second claim.
+\end{proof}
+
+\begin{remark}
+Theorem~\ref{thm:monotone} is the formal counterpart of two empirical
+observations reported below: that each criterion sweep moves its own target
+metric monotonically (Figure~\ref{fig:sweep}), and that the A-penalized portfolio
+improves its design criterion while giving up portfolio-variance performance. The
+second is not a defect of the A-criterion but an instance of the general
+trade-off the theorem describes.
+\end{remark}
+
+\subsection{Limiting solutions}
+
+\begin{lemma}[Penalty limit]
+\label{lem:penaltylimit}
+Let $\Wset$ be compact, let $f_0$ be bounded below on $\Wset$ with
+$f_0(\bar\w)<\infty$, and let $h$ be closed convex with a \emph{unique} minimizer
+$\bar\w$ over $\Wset$. If $\w_\gamma$ minimizes $f_0+\gamma h$ over $\Wset$, then
+$\w_\gamma\to\bar\w$ as $\gamma\to\infty$.
+\end{lemma}
+
+\begin{proof}
+Optimality of $\w_\gamma$ gives
+$f_0(\w_\gamma)+\gamma h(\w_\gamma)\le f_0(\bar\w)+\gamma h(\bar\w)$, hence
+\[
+  0\le h(\w_\gamma)-h(\bar\w)\le\frac{f_0(\bar\w)-f_0(\w_\gamma)}{\gamma}
+  \le\frac{f_0(\bar\w)-\inf_{\Wset}f_0}{\gamma}\xrightarrow[\gamma\to\infty]{}0 ,
+\]
+the first inequality because $\bar\w$ minimizes $h$. Thus
+$h(\w_\gamma)\to h(\bar\w)=\min_{\Wset}h$. Let $\w'$ be any accumulation point of
+$(\w_\gamma)$, which exists by compactness. Lower semicontinuity of $h$ gives
+$h(\w')\le\liminf h(\w_\gamma)=\min_{\Wset}h$, so $\w'$ minimizes $h$ and
+therefore $\w'=\bar\w$ by uniqueness. As every accumulation point equals
+$\bar\w$ and $\Wset$ is compact, $\w_\gamma\to\bar\w$.
+\end{proof}
+
+\begin{theorem}[Limiting portfolios]
+\label{thm:limits}
+Let $\Wset=\{\w:\one^\top\w=1,\ \w\ge0\}$ be the unit simplex and $K=N$. Then:
+\begin{enumerate}[label=(\roman*),leftmargin=2.0em,itemsep=0.2em]
+  \item \emph{(D-limit)} as $\gD\to\infty$ with the other penalties fixed,
+    $\w^\star\to\tfrac1N\one$, the equally weighted portfolio;
+  \item \emph{(A-limit)} as $\gA\to\infty$ with the other penalties fixed,
+    $\w^\star\to\big(\sqrt{G_{ii}}\big/\sum_{j}\sqrt{G_{jj}}\big)_{i=1}^{N}$,
+    where $G=(V^\top V)^{-1}$;
+  \item \emph{(ridge limit)} as $\lambda_2\to\infty$ with the other penalties
+    fixed, $\w^\star\to\tfrac1N\one$;
+  \item \emph{(E-limit)} as $\gE\to\infty$, every accumulation point of
+    $\w^\star$ maximizes $\lammin(\M)$ over $\Wset$, i.e.\ is an E-optimal
+    design; if that maximizer is unique, $\w^\star$ converges to it.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+All four statements apply Lemma~\ref{lem:penaltylimit}; it remains to identify the
+minimizer of each penalty over the simplex.
+
+(i) By Corollary~\ref{cor:KN} the D-criterion is $-\sum_i\log w_i$ up to a
+constant. It is strictly convex on the open simplex, so its minimizer is unique
+and characterized by stationarity of
+$-\sum_i\log w_i-\nu(\one^\top\w-1)$: $-1/w_i=\nu$ for all $i$, so all $w_i$ are
+equal, giving $\w=\tfrac1N\one$. (Equivalently, by the AM--GM inequality
+$\prod_iw_i\le(1/N)^N$ on the simplex with equality iff $\w=\tfrac1N\one$.)
+
+(ii) By Corollary~\ref{cor:KN} the A-criterion is $\sum_iG_{ii}/w_i$, strictly
+convex on the open simplex. Stationarity gives $-G_{ii}/w_i^2=\nu$, so
+$w_i\propto\sqrt{G_{ii}}$, and normalizing by the budget yields the stated
+vector. (Equivalently, by Cauchy--Schwarz,
+$\big(\sum_i\sqrt{G_{ii}}\big)^2\le\big(\sum_iG_{ii}/w_i\big)\big(\sum_iw_i\big)$
+with equality iff $w_i\propto\sqrt{G_{ii}}$.)
+
+(iii) $\lVert\w\rVert_2^2$ is strictly convex with unique simplex minimizer
+$\tfrac1N\one$, by the same stationarity argument or by
+$\lVert\w\rVert_2^2\ge(\one^\top\w)^2/N=1/N$ with equality iff $\w=\tfrac1N\one$.
+
+(iv) The E-criterion $-\lammin(\M)$ is convex and continuous on the compact
+simplex, so minimizers exist, but it need not be strictly convex and the
+minimizer need not be unique. The proof of Lemma~\ref{lem:penaltylimit} up to the
+accumulation-point step applies verbatim and shows that every accumulation point
+minimizes $-\lammin(\M)$, i.e.\ maximizes $\lammin(\M)$; uniqueness then upgrades
+this to convergence.
+\end{proof}
+
+\begin{remark}[Two routes to $1/N$]
+Parts (i) and (iii) both terminate at the equally weighted portfolio, but by
+different mechanisms and along different paths: the ridge penalizes \emph{large}
+weights quadratically, whereas the D-barrier penalizes \emph{small} weights
+without bound. The D-path therefore approaches $1/N$ from the interior while
+enforcing strict positivity at every finite $\gD$ (Proposition~\ref{prop:interior}),
+which the ridge does not. This distinction is invisible in the limit but governs
+the behaviour at the moderate penalty values used in practice.
+\end{remark}
+
+\subsection{Stability: why the penalties reduce turnover}
+
+The empirical headline of this paper is a large reduction in turnover. Turnover
+is a difference of consecutive solutions, so it is controlled by the modulus of
+continuity of the solution map $\Sighat\mapsto\w^\star(\Sighat)$. We now show that
+this map is Lipschitz with a constant inversely proportional to the
+strong-convexity modulus, and that the penalties increase that modulus.
+
+\begin{lemma}[Strong-convexity modulus]
+\label{lem:modulus}
+Let $K=N$, let $\Wset$ be contained in the unit simplex, and let
+$G=(V^\top V)^{-1}$. Then $F$ is $\mu$-strongly convex on $\Wset\cap\dom F$ with
+\begin{equation}
+  \mu\;\ge\;2\lammin\!\big(\Sighat\big)+2\lambda_2+\gD+2\gA\min_iG_{ii} .
+  \label{eq:mu}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The Hessians of the risk and ridge terms are $2\Sighat\succeq2\lammin(\Sighat)I$
+and $2\lambda_2I$. By Corollary~\ref{cor:KN} the D- and A-terms are
+$-\gD\sum_i\log w_i$ and $\gA\sum_iG_{ii}/w_i$ with Hessians
+$\gD\diag(w_i^{-2})$ and $2\gA\diag(G_{ii}w_i^{-3})$. On the unit simplex
+$0<w_i\le1$, so $w_i^{-2}\ge1$ and $w_i^{-3}\ge1$, giving
+$\gD\diag(w_i^{-2})\succeq\gD I$ and
+$2\gA\diag(G_{ii}w_i^{-3})\succeq2\gA(\min_iG_{ii})I$. The E-term is convex, so
+contributes a positive semidefinite term in the subdifferential sense. Summing
+the lower bounds gives \eqref{eq:mu}.
+\end{proof}
+
+\begin{theorem}[Stability of the solution map]
+\label{thm:stability}
+Let $\Wset$ be convex and compact, and let $F(\cdot;\Sighat)$ be $\mu$-strongly
+convex on $\Wset\cap\dom F$ uniformly in the risk model, with minimizers
+$\w^\star(\Sighat)$. Then for any two covariance estimates $\Sighat_1,\Sighat_2$,
+\begin{equation}
+  \big\lVert\w^\star(\Sighat_1)-\w^\star(\Sighat_2)\big\rVert_2
+  \;\le\;\frac{2}{\mu}\,\big\lVert\Sighat_1-\Sighat_2\big\rVert_2\,
+  \big\lVert\w^\star(\Sighat_2)\big\rVert_2 .
+  \label{eq:stability}
+\end{equation}
+In particular, if $\Wset$ lies in the unit simplex then
+$\lVert\w^\star(\Sighat_2)\rVert_2\le1$ and the solution map is Lipschitz with
+constant $2/\mu$.
+\end{theorem}
+
+\begin{proof}
+Write $F_k(\w)=F(\w;\Sighat_k)$ and $\w_k=\w^\star(\Sighat_k)$ for $k=1,2$, and
+put $\Delta=\Sighat_2-\Sighat_1$. Since the two objectives differ only in the
+risk term, $F_2(\w)-F_1(\w)=\w^\top\Delta\w$ and hence
+\begin{equation}
+  \nabla F_2(\w)=\nabla F_1(\w)+2\Delta\w .
+  \label{eq:gradshift}
+\end{equation}
+First-order optimality for a convex function on a convex set states
+$\langle\nabla F_k(\w_k),\w-\w_k\rangle\ge0$ for all $\w\in\Wset$. Taking
+$\w=\w_2$ in the case $k=1$ and $\w=\w_1$ in the case $k=2$ and adding,
+\[
+  \big\langle\nabla F_1(\w_1)-\nabla F_2(\w_2),\,\w_2-\w_1\big\rangle\ \ge\ 0 .
+\]
+Substituting \eqref{eq:gradshift} at $\w=\w_2$ and rearranging,
+\[
+  \big\langle\nabla F_1(\w_1)-\nabla F_1(\w_2),\,\w_2-\w_1\big\rangle
+  \;\ge\;2\big\langle\Delta\w_2,\,\w_2-\w_1\big\rangle .
+\]
+By $\mu$-strong convexity of $F_1$, the gradient is strongly monotone,
+$\langle\nabla F_1(\w_2)-\nabla F_1(\w_1),\w_2-\w_1\rangle\ge\mu\lVert\w_2-\w_1\rVert_2^2$,
+so the left-hand side is at most $-\mu\lVert\w_2-\w_1\rVert_2^2$. Therefore
+\[
+  \mu\lVert\w_2-\w_1\rVert_2^2
+  \;\le\;-2\big\langle\Delta\w_2,\,\w_2-\w_1\big\rangle
+  \;\le\;2\lVert\Delta\w_2\rVert_2\,\lVert\w_2-\w_1\rVert_2
+  \;\le\;2\lVert\Delta\rVert_2\lVert\w_2\rVert_2\lVert\w_2-\w_1\rVert_2 ,
+\]
+using Cauchy--Schwarz and the operator-norm bound. Dividing by
+$\mu\lVert\w_2-\w_1\rVert_2$ (the claim being trivial if $\w_1=\w_2$) gives
+\eqref{eq:stability}.
+\end{proof}
+
+\begin{corollary}[Turnover bound]
+\label{cor:turnover}
+Consider a rebalancing scheme that at date $t$ solves \eqref{eq:objective} with
+covariance estimate $\Sighat_t$ over a fixed feasible set $\Wset$ contained in the
+unit simplex. Then the realized turnover satisfies
+\begin{equation}
+  \tau_t\;=\;\big\lVert\w^\star_t-\w^\star_{t-1}\big\rVert_1
+  \;\le\;\sqrt{N}\,\big\lVert\w^\star_t-\w^\star_{t-1}\big\rVert_2
+  \;\le\;\frac{2\sqrt{N}}{\mu}\,\big\lVert\Sighat_t-\Sighat_{t-1}\big\rVert_2 ,
+\end{equation}
+with $\mu$ bounded below as in \eqref{eq:mu}. The bound is decreasing in each of
+$\lambda_2$, $\gD$ and $\gA$.
+\end{corollary}
+
+\begin{proof}
+The first inequality is the norm equivalence
+$\lVert x\rVert_1\le\sqrt{N}\lVert x\rVert_2$ on $\R^{N}$; the second is
+Theorem~\ref{thm:stability} with $\lVert\w^\star_{t-1}\rVert_2\le1$. Monotonicity
+in the penalties is immediate from \eqref{eq:mu}, since $\mu$ appears in the
+denominator and its lower bound is increasing in $\lambda_2$, $\gD$ and $\gA$.
+\end{proof}
+
+Corollary~\ref{cor:turnover} is, to our knowledge, the first result that derives
+the turnover-damping effect of this class of regularizers from the geometry of
+the objective rather than observing it empirically. It says that turnover is
+bounded by the instability of the covariance estimate divided by the
+strong-convexity modulus, and that every penalty in \eqref{eq:objective} except
+the E-term enters that modulus additively. The empirical turnover reductions
+reported in Sections~\ref{sec:computation}--\ref{sec:applications}---roughly an
+order of magnitude relative to sample-covariance Markowitz---are consistent with
+this mechanism.
+
+\begin{remark}[Where the E-term sits]
+The bound \eqref{eq:mu} credits no strong convexity to the E-term, because
+$-\lammin(\M)$ is convex but not strongly convex: it is a pointwise minimum of
+linear functions and is affine along directions that do not perturb the minimal
+eigenvalue. The E-penalty therefore stabilizes the portfolio through a different
+channel---raising $\lammin(\M)$ and lowering the condition number, which improves
+the conditioning of the problem rather than its curvature. This is consistent
+with our empirical finding that the E-variant tracks GMV more closely than the
+D-variant does on turnover.
+\end{remark}

@@ -1,0 +1,142 @@
+% ===================================================================
+% Section 5: Computation and tuning
+% ===================================================================
+\section{Computation and tuning}
+\label{sec:computation}
+
+\subsection{Implementation}
+The objective \eqref{eq:objective} is assembled from independent \emph{terms},
+each exposing a value and a gradient as derived in Lemma~\ref{lem:gradients}; the
+covariance is supplied by a swappable estimator, and the constraints of
+\eqref{eq:feasible} are composable handlers (a budget equality, per-asset box
+bounds, group inequalities, and optional group-target equalities for sector
+neutrality). The solver is sequential quadratic programming (SLSQP) with the
+analytic Jacobian, warm-started at $\tfrac1N\one$, with a weight floor of
+$10^{-12}$ that keeps the barrier terms finite at the boundary and a small
+diagonal jitter that keeps $\M^{-1}$ well defined in finite precision.
+
+As set out in Remark~\ref{rem:solver}, global optimality is guaranteed by
+convexity rather than by the solver, so we verify the KKT system \eqref{eq:kkt}
+at the returned point and check the exact reductions of
+Lemma~\ref{lem:reductions} numerically. The reductions hold to solver precision:
+the maximum absolute weight deviation from the closed-form GMV portfolio is
+$0.0$, and from the ridge-GMV portfolio $3.3\times10^{-8}$. A conic
+reformulation---in which the A-term is handled by the Schur-complement
+representation of Lemma~\ref{lem:trinv}, the D-term by a log-determinant cone,
+and the E-term by the linear matrix inequality $\M\succeq s I$ with $s$
+maximized---provides an alternative route that returns a duality-gap certificate
+at higher cost.
+
+\subsection{Scaling of the penalties}
+\label{sec:penaltyscaling}
+Proposition~\ref{prop:scaling} showed that rescaling $V$ is equivalent to
+rescaling $\gA$ and $\gE$, which is why Assumption~\ref{as:norm} is imposed.
+There is a second, independent scale in the problem: the units of $\Sighat$. The
+risk term $\w^\top\Sighat\w$ carries units of squared return, whereas
+$\lVert\w\rVert_2^2$ is dimensionless and, under Assumption~\ref{as:norm}, the
+three design criteria are dimensionless as well. Comparing a return-squared
+quantity with a dimensionless one is meaningless unless one of them is
+normalized, so in the implementation the risk and ridge terms are divided by
+$\tfrac1N\tr(\Sighat)$, the average asset variance. With this convention the
+penalty strengths $(\lambda_2,\gA,\gD,\gE)$ are pure numbers that transfer
+across universes of different size, volatility level, and return frequency,
+which is what makes a single fixed operating point defensible across the three
+studies below.
+
+\subsection{Tuning}
+The penalty strengths are hyperparameters. Throughout the experiments we fix a
+single interpretable operating point---$\lambda_2=0.10$ and $\gD=\gE=0.05$,
+long-only with a $30\%$ per-asset cap---rather than tuning per period, so that
+the reported gains cannot be attributed to overfitting the knobs. By
+Theorem~\ref{thm:monotone} the qualitative direction of each penalty's effect is
+guaranteed regardless of the value chosen, so the operating point governs the
+magnitude of the effect and not its sign. A principled alternative is to select
+the penalties by cross-validation on a rolling window, minimizing realized
+out-of-sample volatility or a turnover-adjusted Sharpe ratio; because the
+solution path $\gamma\mapsto\w^\star(\gamma)$ is continuous (and, under strict
+complementarity and the conditions of Theorem~\ref{thm:uniqueness},
+continuously differentiable by the implicit function theorem applied to
+\eqref{eq:kkt}), the path can be traced efficiently by warm-starting along a
+grid.
+
+\subsection{Criterion sweeps on synthetic data}
+We first verify that each criterion controls the quantity it is designed to
+control. The data are generated from a synthetic two-factor return model with
+$N=8$ assets and $T=1000$ business days, producing a realistically structured
+covariance with condition number $\kappa\approx7.5$. Sweeping one penalty at a
+time on the full-sample covariance (long-only) and tracking that criterion's
+natural target metric, we find the monotone behaviour predicted by
+Theorem~\ref{thm:monotone}: the A-penalty lowers the average estimation variance
+$\tr(\M^{-1})$ from $119.9$ to $91.8$; the D-penalty raises the effective number
+of assets $\Neff=1/\sum_iw_i^2$ from $6.7$ to $8.0$, i.e.\ to full
+diversification; and the E-penalty lowers the condition number $\kappa(\M)$ from
+$20.4$ to $14.2$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{week6_design_penalty_sweep.png}
+  \caption{Criterion sweeps (long-only, synthetic two-factor data). Each design
+    penalty improves its own target quantity: A lowers average estimation
+    variance, D raises diversification, E improves worst-case conditioning. The
+    monotonicity is guaranteed by Theorem~\ref{thm:monotone}.}
+  \label{fig:sweep}
+\end{figure}
+
+\subsection{High-dimensional simulation ($N/T\to1$)}
+\label{sec:highdim}
+We next stress the estimation problem directly. On a factor data-generating
+process (a low-rank signal plus idiosyncratic noise, the structure that makes the
+sample covariance ill-conditioned) we fix the estimation window $T=120$ days and
+grow the universe $N\in\{15,40,80,110\}$, so that the concentration ratio
+$q=N/T$ rises from $0.125$ to $0.917$. Results are averaged over independent
+replications. As $q\to1$ the sample covariance degrades sharply, and the effect
+on the portfolios is stark; Table~\ref{tab:nt} reports the extreme case.
+
+\begin{table}[htbp]
+\centering
+\caption{High-dimensional sweep at $q=N/T=0.917$ ($N=110$, $T=120$), factor
+  data-generating process, averaged over replications. Turnover and effective
+  $N$ are the stability and diversification readouts.}
+\label{tab:nt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Strategy} & \textbf{Sharpe} & \textbf{OOS vol} & \textbf{Turnover} & \textbf{Eff.\ $N$} \\
+\midrule
+Equal weight              & 4.51 & 0.0347 & 0.000 & 110.0 \\
+Markowitz (sample)        & 0.62 & 0.0551 & 3.401 & 8.3 \\
+Ridge                     & \textbf{7.35} & \textbf{0.0169} & 0.084 & 101.6 \\
+Shrinkage (Ledoit--Wolf)  & 6.25 & 0.0186 & 0.402 & 65.5 \\
+Proposed (D$+$E$+$ridge)  & 4.69 & 0.0327 & \textbf{0.0015} & \textbf{110.0} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The sample-covariance Markowitz portfolio collapses: turnover $3.40$, fewer than
+nine effective names out of $110$, and a Sharpe ratio of $0.62$. Both the
+shrinkage and the design-regularized portfolios remain stable. We report the
+comparison honestly: as $q\to1$ the design penalty wins decisively on
+\emph{turnover and diversification}---turnover $0.0015$ against $0.084$ for
+ridge, with near-maximal breadth---while plain ridge attains the best raw
+out-of-sample volatility. The two act on different quantities, exactly as the
+theory predicts: ridge and the barrier penalties enter the strong-convexity
+modulus \eqref{eq:mu} and so damp turnover, whereas only the risk term targets
+out-of-sample variance directly.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{week7_method_vs_nt.png}
+  \caption{Behaviour against the concentration ratio $q=N/T$ on a factor
+    data-generating process. Left: out-of-sample volatility. Right: average
+    turnover. The sample Markowitz portfolio deteriorates as $q\to1$, while the
+    structured methods remain stable, with the design-regularized portfolio
+    lowest on turnover throughout.}
+  \label{fig:nt}
+\end{figure}
+
+A companion noise sweep, fixing $N=30$ and $T=120$ and fattening the tails with
+Student-$t$ innovations at $\mathrm{df}\in\{3,5,10\}$ against a Gaussian
+baseline, gives the same qualitative picture: the structured methods hold their
+turnover and breadth as the tails grow heavy, while the raw Markowitz weights
+become progressively more erratic. The design-regularized portfolio trades some
+risk-adjusted return for this stability under the heaviest tails, an instance of
+the trade-off formalized in Theorem~\ref{thm:monotone}.

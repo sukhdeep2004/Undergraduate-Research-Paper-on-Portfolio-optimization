@@ -1,0 +1,48 @@
+# Local / private (not for public GitHub)
+personal/
+paper 2/
+paper.zip
+.cursor/
+scripts/
+docs/imported-chat-history.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+env/
+Code/.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Cached market data (regenerate with examples/fetch_universe.py)
+data_cache/
+Code/data_cache/
+
+# Generated / scratch
+*.pdf
+!docs/**/*.pdf
+.Rhistory
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+__MACOSX/
+.vscode/
+.idea/
+*.swp
+*~

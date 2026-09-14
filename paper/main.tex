@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+
+% -------------------------------------------------------------------
+% Shared preamble: packages, macros, theorem environments.
+% Both authors should add macros THERE, not here.
+% -------------------------------------------------------------------
+\input{preamble}
+
+\title{\bfseries A Design-Optimality Regularizer for Portfolio Selection:\\
+  A-, D-, and E-Optimal Criteria as Structured Shrinkage}
+\author{Sukhdeep Singh \and Saumen Mandal}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Global minimum-variance (GMV) portfolios are notoriously unstable: they invert a
+noisy covariance estimate, so small estimation errors are amplified into large,
+concentrated, high-turnover weights. We propose a unified, convex portfolio
+optimizer that adds to the Markowitz risk objective a family of penalties
+borrowed from \emph{optimal experimental design}. Reading the portfolio weights
+as a design measure over a factor regression, we define a weight-dependent
+information matrix $\M=B^\top\diag(\w)B$ and regularize the portfolio through the
+classical A-, D-, and E-optimality criteria of that matrix. The three criteria
+correspond to distinct, economically interpretable goals---minimum average
+factor-estimation variance (A), balanced factor coverage and diversification (D),
+and worst-case robustness (E). We develop the theory of the resulting program:
+we characterize how the criteria depend on the choice of the design matrix
+(establishing that the D-criterion is invariant to the factor basis while the A-
+and E-criteria are not), give a Cauchy--Binet representation of the D-criterion
+in the rank-deficient case $K<N$, and prove convexity, existence, uniqueness,
+exact recovery of the GMV and ridge-GMV portfolios, monotone comparative statics
+in the penalty strengths, and limiting solutions. A stability theorem shows that
+the penalties increase the strong-convexity modulus of the objective and thereby
+provably damp the sensitivity of the weights to covariance perturbations, giving
+a theoretical explanation of the turnover reductions we observe. Empirically,
+each criterion moves its own target quantity monotonically; in a high-dimensional
+simulation ($N/T\to1$) the design penalties keep the weights stable where the
+sample-covariance Markowitz portfolio collapses; and on a real universe of US
+sector ETFs the design-regularized portfolio cuts turnover roughly tenfold versus
+sample Markowitz while quadrupling effective breadth, at comparable risk-adjusted
+return.
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+\input{sections/01-intro}
+\input{sections/02-setup}
+\input{sections/03-criteria}
+\input{sections/04-theory}
+\input{sections/05-computation}
+\input{sections/06-applications}
+\input{sections/07-discussion}
+
+% -------------------------------------------------------------------
+% Inbox for co-author contributions. Material pasted here is compiled
+% verbatim first, then woven into the sections above.
+% -------------------------------------------------------------------
+\input{sections/prof-additions}
+
+\appendix
+\input{sections/appendix-proofs}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

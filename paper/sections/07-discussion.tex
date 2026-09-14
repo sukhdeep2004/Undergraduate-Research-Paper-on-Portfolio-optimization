@@ -1,0 +1,99 @@
+% ===================================================================
+% Section 7: Discussion
+% ===================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{When each criterion is useful}
+The three criteria are not substitutes; they target different properties of the
+portfolio, and both the theory and the experiments bear this out.
+
+\paragraph{D-optimality} is the most broadly useful as a stabilizer. It raises
+effective breadth and lowers turnover at little cost, it enters the
+strong-convexity modulus \eqref{eq:mu} directly, and in the square case it
+enforces strict positivity automatically
+(Proposition~\ref{prop:interior}), so the no-short-selling constraint never
+binds. It is also the only one of the three that is invariant to the choice of
+factor basis (Theorem~\ref{thm:invariance}), which makes it the criterion of
+choice when the factors are statistically estimated and therefore identified
+only up to rotation. Its limiting portfolio is $1/N$
+(Theorem~\ref{thm:limits}(i)), so it can be read as a continuous interpolation
+between GMV and equal weighting.
+
+\paragraph{E-optimality} is the criterion to reach for when worst-case
+conditioning matters, or when the risk model may be misspecified in a particular
+direction. It raises $\lammin(\M)$ and lowers the condition number, and it is the
+design analogue of robust min--max portfolio selection \cite{goldfarb2003}. It
+stabilizes through conditioning rather than curvature: as noted after
+Corollary~\ref{cor:turnover}, it contributes no strong convexity, which is
+consistent with our finding that the E-variant tracks GMV more closely on
+turnover than the D-variant does. Its benefits should be clearest in
+ill-conditioned, high-dimensional regimes and under genuine stress, and
+establishing that empirically remains open.
+
+\paragraph{A-optimality} regularizes the weights but trades \emph{portfolio}
+variance for \emph{estimation} variance. Theorem~\ref{thm:monotone} shows this is
+structural rather than incidental: increasing any penalty weakly improves its own
+criterion and weakly worsens the rest of the objective, and for A the rest of the
+objective includes the risk term. A is therefore best understood as a shrinkage
+device whose limiting portfolio, $w_i\propto\sqrt{G_{ii}}$
+(Theorem~\ref{thm:limits}(ii)), is a metric-tilted spread rather than a
+risk-minimizing allocation. It should be used with that caveat stated.
+
+\subsection{Trade-offs and limitations}
+Several limitations deserve emphasis.
+
+\emph{Complementarity, not dominance.} The design penalties buy stability and
+diversification, generally at a small cost in raw out-of-sample volatility
+relative to plain ridge. The honest framing is that design regularization is
+complementary to ridge and shrinkage: shrinkage improves the covariance
+\emph{estimate} while the design penalties regularize the \emph{weights}, and our
+results show these are distinct effects that can be combined.
+
+\emph{The bridge is exact only at the matrix level.} Information is linear in
+$\w$ while risk is quadratic, so the correspondence between design measures and
+portfolio weights is exact at the level of criteria and heuristic at the level of
+the weight vector.
+
+\emph{Rank deficiency weakens uniqueness.} By Remark~\ref{rem:injective}, in the
+empirically typical factor regime $N>K(K+1)/2$ the map $\w\mapsto\M$ is not
+injective, so the design penalties alone do not deliver a unique solution and the
+ridge term should be retained.
+
+\emph{Nonsmoothness.} The E-term is nonsmooth wherever $\lammin(\M)$ is a
+repeated eigenvalue, so the first-order conditions there involve a
+subdifferential; our solver uses a subgradient at such points.
+
+\emph{Estimated loadings.} The factor loadings $B$ must themselves be estimated,
+and the criteria inherit that estimation error. Our experiments use the
+precision-metric specification $V=\Sighat^{-1/2}$, which sidesteps the issue at
+the cost of leaving the factor interpretation implicit.
+
+\subsection{Directions for further work}
+Three directions follow naturally. First, and most immediately, substituting
+explicitly estimated loadings into $\M=B^\top\diag(\w)B$ would test the factor
+interpretation of Section~\ref{sec:vi} directly and would bring the
+rank-deficient Cauchy--Binet form \eqref{eq:cb} into play, where the D-criterion
+rewards spanning rather than mere numerosity (Remark~\ref{rem:scope}); this is
+the clearest gap between the theory developed here and the experiments reported.
+Second, an equivalence-theorem characterization of the penalized optimum, in the
+spirit of Kiefer--Wolfowitz \cite{kiefer1960}, would connect the formulation to
+the multiplicative algorithms of the design literature and supply a verifiable
+optimality condition at every candidate point. Third, joint rather than
+one-at-a-time tuning of the penalties, exploiting the continuity and
+differentiability of the solution path noted in Section~\ref{sec:computation},
+would clarify how the three criteria interact when active simultaneously.
+
+\subsection{Summary}
+We have proposed a single convex optimizer unifying Markowitz risk, ridge
+regularization, and A-, D-, and E-optimality design penalties; given the design
+points a genuine factor-regression meaning; characterized how the criteria depend
+on the choice of design matrix, including the basis-invariance of D and the
+Cauchy--Binet form of the rank-deficient case; and established the structural
+theory of the program---convexity, existence, uniqueness, exact recovery of the
+classical portfolios, monotone comparative statics, limiting solutions, and a
+stability bound that derives the observed turnover damping from the geometry of
+the objective. Empirically, each criterion controls a distinct and named property
+of the portfolio, delivering in particular an order-of-magnitude turnover
+reduction and a large gain in diversification at competitive risk-adjusted
+return, on both simulated and real data.
