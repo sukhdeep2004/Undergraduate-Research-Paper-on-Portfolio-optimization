@@ -1,3 +1,16 @@
+% ===================================================================
+% Bibliography.
+%
+% NOTE TO CO-AUTHORS: the key `man17` was cited in the incoming draft
+% (alongside demiguel2009norm, for norm constraints on the weights) but
+% no entry was supplied. A placeholder is included at the END of this
+% file and MUST be replaced with the intended reference before
+% submission. All other entries are complete.
+% ===================================================================
+
+% -------------------------------------------------------------------
+% Foundations of mean-variance portfolio selection
+% -------------------------------------------------------------------
 @article{markowitz1952,
   author  = {Markowitz, Harry},
   title   = {Portfolio Selection},
@@ -6,6 +19,46 @@
   volume  = {7},
   number  = {1},
   pages   = {77--91}
+}
+
+@article{merton1980,
+  author  = {Merton, Robert C.},
+  title   = {On Estimating the Expected Return on the Market: An Exploratory Investigation},
+  journal = {Journal of Financial Economics},
+  year    = {1980},
+  volume  = {8},
+  number  = {4},
+  pages   = {323--361}
+}
+
+@article{michaud1989,
+  author  = {Michaud, Richard O.},
+  title   = {The {M}arkowitz Optimization Enigma: Is `Optimized' Optimal?},
+  journal = {Financial Analysts Journal},
+  year    = {1989},
+  volume  = {45},
+  number  = {1},
+  pages   = {31--42}
+}
+
+@article{best1991,
+  author  = {Best, Michael J. and Grauer, Robert R.},
+  title   = {On the Sensitivity of Mean-Variance-Efficient Portfolios to Changes in Asset Means: Some Analytical and Computational Results},
+  journal = {The Review of Financial Studies},
+  year    = {1991},
+  volume  = {4},
+  number  = {2},
+  pages   = {315--342}
+}
+
+@article{chopra1993,
+  author  = {Chopra, Vijay K. and Ziemba, William T.},
+  title   = {The Effect of Errors in Means, Variances, and Covariances on Optimal Portfolio Choice},
+  journal = {The Journal of Portfolio Management},
+  year    = {1993},
+  volume  = {19},
+  number  = {2},
+  pages   = {6--11}
 }
 
 @article{brittenjones1999,
@@ -18,34 +71,32 @@
   pages   = {655--671}
 }
 
-@techreport{bruder2013,
-  author      = {Bruder, Benjamin and Gaussel, Nicolas and Richard, Jean-Charles and Roncalli, Thierry},
-  title       = {Regularization of Portfolio Allocation},
-  institution = {Lyxor Asset Management / SSRN Working Paper},
-  year        = {2013}
+@article{fama1993,
+  author  = {Fama, Eugene F. and French, Kenneth R.},
+  title   = {Common Risk Factors in the Returns on Stocks and Bonds},
+  journal = {Journal of Financial Economics},
+  year    = {1993},
+  volume  = {33},
+  number  = {1},
+  pages   = {3--56}
 }
 
-@book{bergerwong,
-  author    = {Berger, Martijn P. F. and Wong, Weng Kee},
-  title     = {An Introduction to Optimal Designs for Social and Biomedical Research},
-  publisher = {Wiley},
-  address   = {Chichester},
-  year      = {2009}
-}
-
-@article{ledoitwolf2004,
-  author  = {Ledoit, Olivier and Wolf, Michael},
-  title   = {A Well-Conditioned Estimator for Large-Dimensional Covariance Matrices},
-  journal = {Journal of Multivariate Analysis},
-  year    = {2004},
-  volume  = {88},
-  number  = {2},
-  pages   = {365--411}
+% -------------------------------------------------------------------
+% Constraints, norms and sparsity as regularization
+% -------------------------------------------------------------------
+@article{jagannathan2003,
+  author  = {Jagannathan, Ravi and Ma, Tongshu},
+  title   = {Risk Reduction in Large Portfolios: Why Imposing the Wrong Constraints Helps},
+  journal = {The Journal of Finance},
+  year    = {2003},
+  volume  = {58},
+  number  = {4},
+  pages   = {1651--1683}
 }
 
 @article{demiguel2009,
   author  = {DeMiguel, Victor and Garlappi, Lorenzo and Uppal, Raman},
-  title   = {Optimal Versus Naive Diversification: How Inefficient Is the 1/N Portfolio Strategy?},
+  title   = {Optimal Versus Naive Diversification: How Inefficient Is the 1/{N} Portfolio Strategy?},
   journal = {The Review of Financial Studies},
   year    = {2009},
   volume  = {22},
@@ -63,6 +114,243 @@
   pages   = {798--812}
 }
 
+@article{brodie2009,
+  author  = {Brodie, Joshua and Daubechies, Ingrid and De Mol, Christine and Giannone, Domenico and Loris, Ignace},
+  title   = {Sparse and Stable {M}arkowitz Portfolios},
+  journal = {Proceedings of the National Academy of Sciences},
+  year    = {2009},
+  volume  = {106},
+  number  = {30},
+  pages   = {12267--12272}
+}
+
+@article{fan2012,
+  author  = {Fan, Jianqing and Zhang, Jingjin and Yu, Ke},
+  title   = {Vast Portfolio Selection with Gross-Exposure Constraints},
+  journal = {Journal of the American Statistical Association},
+  year    = {2012},
+  volume  = {107},
+  number  = {498},
+  pages   = {592--606}
+}
+
+@article{fastrich2015,
+  author  = {Fastrich, Bj{\"o}rn and Paterlini, Sandra and Winker, Peter},
+  title   = {Constructing Optimal Sparse Portfolios Using Regularization Methods},
+  journal = {Computational Management Science},
+  year    = {2015},
+  volume  = {12},
+  number  = {3},
+  pages   = {417--434}
+}
+
+@article{kremer2020,
+  author  = {Kremer, Philipp J. and Lee, Sangkyun and Bogdan, Ma{\l}gorzata and Paterlini, Sandra},
+  title   = {Sparse Portfolio Selection via the Sorted $\ell_1$-Norm},
+  journal = {Journal of Banking and Finance},
+  year    = {2020},
+  volume  = {110},
+  pages   = {105687}
+}
+
+% -------------------------------------------------------------------
+% Covariance estimation and shrinkage
+% -------------------------------------------------------------------
+@article{ledoitwolf2003,
+  author  = {Ledoit, Olivier and Wolf, Michael},
+  title   = {Improved Estimation of the Covariance Matrix of Stock Returns with an Application to Portfolio Selection},
+  journal = {Journal of Empirical Finance},
+  year    = {2003},
+  volume  = {10},
+  number  = {5},
+  pages   = {603--621}
+}
+
+@article{ledoitwolf2004,
+  author  = {Ledoit, Olivier and Wolf, Michael},
+  title   = {A Well-Conditioned Estimator for Large-Dimensional Covariance Matrices},
+  journal = {Journal of Multivariate Analysis},
+  year    = {2004},
+  volume  = {88},
+  number  = {2},
+  pages   = {365--411}
+}
+
+@article{ledoitwolf2017,
+  author  = {Ledoit, Olivier and Wolf, Michael},
+  title   = {Nonlinear Shrinkage of the Covariance Matrix for Portfolio Selection: {M}arkowitz Meets {G}oldilocks},
+  journal = {The Review of Financial Studies},
+  year    = {2017},
+  volume  = {30},
+  number  = {12},
+  pages   = {4349--4388}
+}
+
+@article{ledoitwolf2020,
+  author  = {Ledoit, Olivier and Wolf, Michael},
+  title   = {Analytical Nonlinear Shrinkage of Large-Dimensional Covariance Matrices},
+  journal = {The Annals of Statistics},
+  year    = {2020},
+  volume  = {48},
+  number  = {5},
+  pages   = {3043--3065}
+}
+
+@article{ledoitwolf2022,
+  author  = {Ledoit, Olivier and Wolf, Michael},
+  title   = {Quadratic Shrinkage for Large Covariance Matrices},
+  journal = {Bernoulli},
+  year    = {2022},
+  volume  = {28},
+  number  = {3},
+  pages   = {1519--1547}
+}
+
+@article{engle2019,
+  author  = {Engle, Robert F. and Ledoit, Olivier and Wolf, Michael},
+  title   = {Large Dynamic Covariance Matrices},
+  journal = {Journal of Business and Economic Statistics},
+  year    = {2019},
+  volume  = {37},
+  number  = {2},
+  pages   = {363--375}
+}
+
+@article{chen2010oas,
+  author  = {Chen, Yilun and Wiesel, Ami and Eldar, Yonina C. and Hero, Alfred O.},
+  title   = {Shrinkage Algorithms for {MMSE} Covariance Estimation},
+  journal = {IEEE Transactions on Signal Processing},
+  year    = {2010},
+  volume  = {58},
+  number  = {10},
+  pages   = {5016--5029}
+}
+
+@article{bickel2008,
+  author  = {Bickel, Peter J. and Levina, Elizaveta},
+  title   = {Regularized Estimation of Large Covariance Matrices},
+  journal = {The Annals of Statistics},
+  year    = {2008},
+  volume  = {36},
+  number  = {1},
+  pages   = {199--227}
+}
+
+@article{fan2008,
+  author  = {Fan, Jianqing and Fan, Yingying and Lv, Jinchi},
+  title   = {High Dimensional Covariance Matrix Estimation Using a Factor Model},
+  journal = {Journal of Econometrics},
+  year    = {2008},
+  volume  = {147},
+  number  = {1},
+  pages   = {186--197}
+}
+
+@article{fan2013,
+  author  = {Fan, Jianqing and Liao, Yuan and Mincheva, Martina},
+  title   = {Large Covariance Estimation by Thresholding Principal Orthogonal Complements},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  year    = {2013},
+  volume  = {75},
+  number  = {4},
+  pages   = {603--680}
+}
+
+% -------------------------------------------------------------------
+% High-dimensional and recent portfolio theory
+% -------------------------------------------------------------------
+@article{kanzhou2007,
+  author  = {Kan, Raymond and Zhou, Guofu},
+  title   = {Optimal Portfolio Choice with Parameter Uncertainty},
+  journal = {Journal of Financial and Quantitative Analysis},
+  year    = {2007},
+  volume  = {42},
+  number  = {3},
+  pages   = {621--656}
+}
+
+@article{tuzhou2011,
+  author  = {Tu, Jun and Zhou, Guofu},
+  title   = {Markowitz Meets {T}almud: A Combination of Sophisticated and Naive Diversification Strategies},
+  journal = {Journal of Financial Economics},
+  year    = {2011},
+  volume  = {99},
+  number  = {1},
+  pages   = {204--215}
+}
+
+@article{elkaroui2010,
+  author  = {El Karoui, Noureddine},
+  title   = {High-Dimensionality Effects in the {M}arkowitz Problem and Other Quadratic Programs with Linear Constraints: Risk Underestimation},
+  journal = {The Annals of Statistics},
+  year    = {2010},
+  volume  = {38},
+  number  = {6},
+  pages   = {3487--3566}
+}
+
+@article{ban2018,
+  author  = {Ban, Gah-Yi and El Karoui, Noureddine and Lim, Andrew E. B.},
+  title   = {Machine Learning and Portfolio Optimization},
+  journal = {Management Science},
+  year    = {2018},
+  volume  = {64},
+  number  = {3},
+  pages   = {1136--1154}
+}
+
+@article{bodnar2018,
+  author  = {Bodnar, Taras and Parolya, Nestor and Schmid, Wolfgang},
+  title   = {Estimation of the Global Minimum Variance Portfolio in High Dimensions},
+  journal = {European Journal of Operational Research},
+  year    = {2018},
+  volume  = {266},
+  number  = {1},
+  pages   = {371--390}
+}
+
+@article{bodnar2019,
+  author  = {Bodnar, Taras and Okhrin, Ostap and Parolya, Nestor},
+  title   = {Optimal Shrinkage Estimator for High-Dimensional Mean Vector},
+  journal = {Journal of Multivariate Analysis},
+  year    = {2019},
+  volume  = {170},
+  pages   = {63--79}
+}
+
+@article{ao2019,
+  author  = {Ao, Mengmeng and Li, Yingying and Zheng, Xinghua},
+  title   = {Approaching Mean-Variance Efficiency for Large Portfolios},
+  journal = {The Review of Financial Studies},
+  year    = {2019},
+  volume  = {32},
+  number  = {7},
+  pages   = {2890--2919}
+}
+
+@article{callot2021,
+  author  = {Callot, Laurent and Caner, Mehmet and {\"O}nder, A. {\"O}zlem and Ula{\c s}an, Esra},
+  title   = {A Nodewise Regression Approach to Estimating Large Portfolios},
+  journal = {Journal of Business and Economic Statistics},
+  year    = {2021},
+  volume  = {39},
+  number  = {2},
+  pages   = {520--531}
+}
+
+@article{ding2021,
+  author  = {Ding, Yi and Li, Yingying and Zheng, Xinghua},
+  title   = {High Dimensional Minimum Variance Portfolio Estimation under Statistical Factor Models},
+  journal = {Journal of Econometrics},
+  year    = {2021},
+  volume  = {222},
+  number  = {1},
+  pages   = {502--515}
+}
+
+% -------------------------------------------------------------------
+% Robust optimization and risk budgeting
+% -------------------------------------------------------------------
 @article{goldfarb2003,
   author  = {Goldfarb, Donald and Iyengar, Garud},
   title   = {Robust Portfolio Selection Problems},
@@ -73,37 +361,14 @@
   pages   = {1--38}
 }
 
-@article{kiefer1960,
-  author  = {Kiefer, Jack and Wolfowitz, Jacob},
-  title   = {The Equivalence of Two Extremum Problems},
-  journal = {Canadian Journal of Mathematics},
-  year    = {1960},
-  volume  = {12},
-  pages   = {363--366}
-}
-
-@book{pukelsheim2006,
-  author    = {Pukelsheim, Friedrich},
-  title     = {Optimal Design of Experiments},
-  publisher = {SIAM},
-  year      = {2006}
-}
-
-@book{boyd2004,
-  author    = {Boyd, Stephen and Vandenberghe, Lieven},
-  title     = {Convex Optimization},
-  publisher = {Cambridge University Press},
-  year      = {2004}
-}
-
-@article{brodie2009,
-  author  = {Brodie, Joshua and Daubechies, Ingrid and De Mol, Christine and Giannone, Domenico and Loris, Ignace},
-  title   = {Sparse and Stable Markowitz Portfolios},
-  journal = {Proceedings of the National Academy of Sciences},
-  year    = {2009},
-  volume  = {106},
-  number  = {30},
-  pages   = {12267--12272}
+@article{fabozzi2007,
+  author  = {Fabozzi, Frank J. and Kolm, Petter N. and Pachamanova, Dessislava and Focardi, Sergio M.},
+  title   = {Robust Portfolio Optimization},
+  journal = {The Journal of Portfolio Management},
+  year    = {2007},
+  volume  = {33},
+  number  = {3},
+  pages   = {40--48}
 }
 
 @article{maillard2010,
@@ -116,19 +381,163 @@
   pages   = {60--70}
 }
 
-@article{fama1993,
-  author  = {Fama, Eugene F. and French, Kenneth R.},
-  title   = {Common Risk Factors in the Returns on Stocks and Bonds},
-  journal = {Journal of Financial Economics},
-  year    = {1993},
-  volume  = {33},
-  number  = {1},
-  pages   = {3--56}
+@book{roncalli2013,
+  author    = {Roncalli, Thierry},
+  title     = {Introduction to Risk Parity and Budgeting},
+  publisher = {Chapman and Hall/CRC},
+  year      = {2013}
+}
+
+@techreport{bruder2013,
+  author      = {Bruder, Benjamin and Gaussel, Nicolas and Richard, Jean-Charles and Roncalli, Thierry},
+  title       = {Regularization of Portfolio Allocation},
+  institution = {Lyxor Asset Management / SSRN Working Paper},
+  year        = {2013}
+}
+
+@article{kolm2014,
+  author  = {Kolm, Petter N. and T{\"u}t{\"u}nc{\"u}, Reha and Fabozzi, Frank J.},
+  title   = {60 Years of Portfolio Optimization: Practical Challenges and Current Trends},
+  journal = {European Journal of Operational Research},
+  year    = {2014},
+  volume  = {234},
+  number  = {2},
+  pages   = {356--371}
+}
+
+% -------------------------------------------------------------------
+% Optimal experimental design
+% -------------------------------------------------------------------
+@article{kiefer1960,
+  author  = {Kiefer, Jack and Wolfowitz, Jacob},
+  title   = {The Equivalence of Two Extremum Problems},
+  journal = {Canadian Journal of Mathematics},
+  year    = {1960},
+  volume  = {12},
+  pages   = {363--366}
+}
+
+@book{fed72,
+  author    = {Fedorov, Valerii V.},
+  title     = {Theory of Optimal Experiments},
+  publisher = {Academic Press},
+  address   = {New York},
+  year      = {1972}
+}
+
+@book{silvey1980,
+  author    = {Silvey, Samuel D.},
+  title     = {Optimal Design: An Introduction to the Theory for Parameter Estimation},
+  publisher = {Chapman and Hall},
+  address   = {London},
+  year      = {1980}
+}
+
+@book{atk07,
+  author    = {Atkinson, Anthony C. and Donev, Alexander N. and Tobias, Randall D.},
+  title     = {Optimum Experimental Designs, with {SAS}},
+  publisher = {Oxford University Press},
+  address   = {Oxford},
+  year      = {2007}
+}
+
+@book{pukelsheim2006,
+  author    = {Pukelsheim, Friedrich},
+  title     = {Optimal Design of Experiments},
+  publisher = {SIAM},
+  address   = {Philadelphia},
+  year      = {2006}
+}
+
+@book{bergerwong,
+  author    = {Berger, Martijn P. F. and Wong, Weng Kee},
+  title     = {An Introduction to Optimal Designs for Social and Biomedical Research},
+  publisher = {Wiley},
+  address   = {Chichester},
+  year      = {2009}
+}
+
+@article{titterington1976,
+  author  = {Titterington, D. M.},
+  title   = {Algorithms for Computing {D}-Optimal Designs on a Finite Design Space},
+  journal = {Proceedings of the 1976 Conference on Information Sciences and Systems},
+  year    = {1976},
+  pages   = {213--216}
+}
+
+@article{silvey1978,
+  author  = {Silvey, S. D. and Titterington, D. M. and Torsney, B.},
+  title   = {An Algorithm for Optimal Designs on a Finite Design Space},
+  journal = {Communications in Statistics -- Theory and Methods},
+  year    = {1978},
+  volume  = {7},
+  number  = {14},
+  pages   = {1379--1389}
+}
+
+@article{mandal2006,
+  author  = {Mandal, Saumen and Torsney, Ben},
+  title   = {Construction of Optimal Designs Using a Clustering Approach},
+  journal = {Journal of Statistical Planning and Inference},
+  year    = {2006},
+  volume  = {136},
+  number  = {3},
+  pages   = {1120--1134}
+}
+
+% -------------------------------------------------------------------
+% Convex optimization and computation
+% -------------------------------------------------------------------
+@book{boyd2004,
+  author    = {Boyd, Stephen and Vandenberghe, Lieven},
+  title     = {Convex Optimization},
+  publisher = {Cambridge University Press},
+  address   = {Cambridge},
+  year      = {2004}
+}
+
+@article{virtanen2020,
+  author  = {Virtanen, Pauli and Gommers, Ralf and Oliphant, Travis E. and others},
+  title   = {{SciPy} 1.0: Fundamental Algorithms for Scientific Computing in {P}ython},
+  journal = {Nature Methods},
+  year    = {2020},
+  volume  = {17},
+  pages   = {261--272}
+}
+
+@article{harris2020,
+  author  = {Harris, Charles R. and Millman, K. Jarrod and van der Walt, St{\'e}fan J. and others},
+  title   = {Array Programming with {N}um{P}y},
+  journal = {Nature},
+  year    = {2020},
+  volume  = {585},
+  pages   = {357--362}
+}
+
+@techreport{kraft1988,
+  author      = {Kraft, Dieter},
+  title       = {A Software Package for Sequential Quadratic Programming},
+  institution = {Deutsche Forschungs- und Versuchsanstalt f{\"u}r Luft- und Raumfahrt},
+  number      = {DFVLR-FB 88-28},
+  year        = {1988}
 }
 
 @article{depaula2022,
   author  = {de Paula, G. and others},
-  title   = {A D-Optimality Criterion for Portfolio Selection},
+  title   = {A {D}-Optimality Criterion for Portfolio Selection},
   journal = {Working Paper},
   year    = {2022}
+}
+
+% -------------------------------------------------------------------
+% *** PLACEHOLDER -- REPLACE BEFORE SUBMISSION ***
+% Cited in the introduction as \cite{man17} alongside demiguel2009norm
+% (norm constraints on the weights). The intended source was not
+% supplied with the incoming draft; please confirm the correct entry.
+% -------------------------------------------------------------------
+@misc{man17,
+  author = {{Reference to be confirmed by co-author}},
+  title  = {Placeholder for citation key \texttt{man17}},
+  year   = {2017},
+  note   = {Entry pending; cited for norm-constrained portfolio regularization}
 }

@@ -5,6 +5,7 @@ paper.zip
 .cursor/
 scripts/
 docs/imported-chat-history.md
+showcase/
 
 # Python
 __pycache__/
